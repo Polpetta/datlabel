@@ -8,7 +8,7 @@ import (
 )
 
 func newDockerClient() *docker.Client {
-	cli, err := docker.NewClientWithOpts(docker.FromEnv)
+	cli, err := docker.NewEnvClient()
 	if err != nil {
 		panic(err)
 	}
