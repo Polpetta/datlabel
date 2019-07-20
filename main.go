@@ -2,9 +2,8 @@ package dockerlabel
 
 import (
 	"context"
-
-	//"github.com/docker/docker/api/types"
 	docker "github.com/docker/docker/client"
+	ce "github.com/polpetta/docker-label/error"
 )
 
 func newDockerClient() *docker.Client {
@@ -16,14 +15,14 @@ func newDockerClient() *docker.Client {
 	return cli
 }
 
-func GetLabelsFromContainer(containerId string) []string {
-	result := []string{}
+func GetLabelsFromContainer(containerId string) ([]string, error) {
+	var result []string
 	cli := newDockerClient()
 	containerDetails, err := cli.ContainerInspect(context.Background(),
 		containerId)
 
 	if err != nil {
-		panic(err)
+		return nil, ce.NewNoContainerError(containerId)
 	}
 
 	for key, value := range containerDetails.Config.Labels {
@@ -32,13 +31,13 @@ func GetLabelsFromContainer(containerId string) []string {
 		}
 	}
 
-	return result
+	return result, nil
 }
 
-func GetLabelsFromService(serviceId string) []string {
-	return []string{}
+func GetLabelsFromService(serviceId string) ([]string, error) {
+	return []string{}, nil
 }
 
-func GetLabelsFromStack(stackId string) []string {
-	return []string{}
+func GetLabelsFromStack(stackId string) ([]string, error) {
+	return []string{}, nil
 }
