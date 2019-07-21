@@ -78,8 +78,13 @@ func DockerCli(flags *DockerCliArgs, fn func(string), t *testing.T) {
 
 	fn(sanitizedContainerId)
 
-	cmd := exec.Command(dockerCliBin, DockerKillCommand, sanitizedContainerId)
-	err = cmd.Run()
+	KillContainer(sanitizedContainerId, t)
+}
+
+func KillContainer(containerId string, t *testing.T) {
+	cmd := exec.Command(dockerCliBin, DockerKillCommand, containerId)
+	err := cmd.Run()
+
 	if err != nil {
 		t.Fatalf(err.Error())
 	}

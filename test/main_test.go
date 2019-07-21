@@ -15,9 +15,11 @@ func TestItShouldGetLabelsFromContainer(t *testing.T) {
 		Image("alpine"), func(containerId string) {
 		labels, err := m.GetLabelsFromContainer(containerId)
 		if err != nil {
+			u.KillContainer(containerId, t)
 			t.Fatalf(err.Error())
 		}
-		if len(labels) != 1 && labels[0] == testLabel {
+		if len(labels) != 1 || labels[0] != testLabel {
+			u.KillContainer(containerId, t)
 			t.Fatalf("Expected 1 element in the array, found %d",
 				len(labels))
 		}
@@ -31,9 +33,11 @@ func TestItShouldNotGetLabelsFromEmptyContainer(t *testing.T) {
 		Image("alpine"), func(containerId string) {
 		labels, err := m.GetLabelsFromContainer(containerId)
 		if err != nil {
+			u.KillContainer(containerId, t)
 			t.Fatalf(err.Error())
 		}
 		if len(labels) != 0 {
+			u.KillContainer(containerId, t)
 			t.Fatalf("Expected 0 elements in the array, found %d",
 				len(labels))
 		}
