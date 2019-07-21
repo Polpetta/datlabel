@@ -15,6 +15,8 @@ func newDockerClient() *docker.Client {
 	return cli
 }
 
+// Given a container id, the functions returns the current labels only, without
+// any field description.
 func GetLabelsFromContainer(containerId string) ([]string, error) {
 	var result []string
 	cli := newDockerClient()
