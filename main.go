@@ -2,44 +2,44 @@ package dockerlabel
 
 import (
 	"context"
-	docker "github.com/docker/docker/client"
 	ce "github.com/polpetta/docker-label/error"
+	"github.com/polpetta/docker-label/utils"
 )
 
-func newDockerClient() *docker.Client {
-	cli, err := docker.NewEnvClient()
-	if err != nil {
-		panic(err)
-	}
-
-	return cli
-}
-
-// Given a container id, the functions returns the current labels only, without
+// Given a container id, the function returns the current labels only, without
 // any field description.
 func GetLabelsFromContainer(containerId string) ([]string, error) {
-	var result []string
-	cli := newDockerClient()
+	cli := utils.NewDockerClient()
 	containerDetails, err := cli.ContainerInspect(context.Background(),
 		containerId)
 
 	if err != nil {
-		return nil, ce.NewNoContainerError(containerId)
+		return nil, ce.NewNoSuchElement(containerId)
 	}
 
-	for key, value := range containerDetails.Config.Labels {
-		if value != "false" {
-			result = append(result, key)
-		}
-	}
-
-	return result, nil
+	return utils.FilterLabelsByString(
+		containerDetails.Config.Labels,
+		"false"), nil
 }
 
+// Given a service id, the function returns the service labels without any filed
+// description
 func GetLabelsFromService(serviceId string) ([]string, error) {
-	return []string{}, nil
+	cli := utils.NewDockerClient()
+	serviceDetails, _, err := cli.ServiceInspectWithRaw(context.Background(),
+		serviceId)
+
+	if err != nil {
+		return nil, ce.NewNoSuchElement(serviceId)
+	}
+
+	return utils.FilterLabelsByString(
+		serviceDetails.Spec.Labels,
+		"false"), nil
 }
 
+// The idea here is to return all the labels a stack has, in order to collect
+// them in a list
 func GetLabelsFromStack(stackId string) ([]string, error) {
 	return []string{}, nil
 }

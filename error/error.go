@@ -8,14 +8,14 @@ const (
 	noContainerErrorMessage = "Container with id %s was not found"
 )
 
-type NoContainerError struct {
-	containerId string
+type NoSuchElement struct {
+	elementId string
 }
 
-func NewNoContainerError(containerId string) *NoContainerError {
-	return &NoContainerError{containerId: containerId}
+func NewNoSuchElement(elementId string) *NoSuchElement {
+	return &NoSuchElement{elementId: elementId}
 }
 
-func (e *NoContainerError) Error() string {
-	return fmt.Sprintf(noContainerErrorMessage, e.containerId)
+func (e *NoSuchElement) Error() string {
+	return fmt.Sprintf(noContainerErrorMessage, e.elementId)
 }
