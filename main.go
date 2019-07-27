@@ -1,9 +1,9 @@
-package dockerlabel
+package datlabel
 
 import (
 	"context"
-	ce "github.com/polpetta/docker-label/error"
-	"github.com/polpetta/docker-label/utils"
+	ce "github.com/polpetta/datlabel/error"
+	"github.com/polpetta/datlabel/utils"
 )
 
 // Given a container id, the function returns the current labels only, without

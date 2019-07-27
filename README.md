@@ -1,7 +1,7 @@
-Docker-label
+Datlabel
 ===
 
-Docker-label is a micro Go library that aims to make the searching, listing and
+Datlabel is a micro Go library that aims to make the searching, listing and
 filtering of labels in Docker containers and services as easy as possible.
 On top of that, it offers the possibility to search on Stacks too.
 
@@ -9,7 +9,7 @@ On top of that, it offers the possibility to search on Stacks too.
 The library is a standard Go project that uses modules. In order to build it,
 open a shell and type:
 ```shell script
-go build github.com/polpetta/docker-label
+go build github.com/polpetta/datlabel
 ```
 
 ## Testing

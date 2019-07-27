@@ -1,4 +1,4 @@
-module github.com/polpetta/docker-label
+module github.com/polpetta/datlabel
 
 go 1.12
 

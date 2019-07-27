@@ -1,8 +1,8 @@
-package dockerlabel
+package datlabel
 
 import (
-	m "github.com/polpetta/docker-label"
-	u "github.com/polpetta/docker-label/test/utils"
+	m "github.com/polpetta/datlabel"
+	u "github.com/polpetta/datlabel/test/utils"
 	"testing"
 )
 
