@@ -8,7 +8,7 @@ import (
 
 // Given a container id, the function returns the current labels only, without
 // any field description.
-func GetLabelsFromContainer(containerId string) ([]string, error) {
+func GetLabelsFromContainer(containerId string) (Result, error) {
 	cli := utils.NewDockerClient()
 	containerDetails, err := cli.ContainerInspect(context.Background(),
 		containerId)
@@ -17,14 +17,12 @@ func GetLabelsFromContainer(containerId string) ([]string, error) {
 		return nil, ce.NewNoSuchElement(containerId)
 	}
 
-	return utils.FilterLabelsByString(
-		containerDetails.Config.Labels,
-		"false"), nil
+	return NewResult(containerDetails.Config.Labels), nil
 }
 
 // Given a service id, the function returns the service labels without any filed
 // description
-func GetLabelsFromService(serviceId string) ([]string, error) {
+func GetLabelsFromService(serviceId string) (Result, error) {
 	cli := utils.NewDockerClient()
 	serviceDetails, _, err := cli.ServiceInspectWithRaw(context.Background(),
 		serviceId)
@@ -33,13 +31,24 @@ func GetLabelsFromService(serviceId string) ([]string, error) {
 		return nil, ce.NewNoSuchElement(serviceId)
 	}
 
-	return utils.FilterLabelsByString(
-		serviceDetails.Spec.Labels,
-		"false"), nil
+	return NewResult(serviceDetails.Spec.Labels), nil
+}
+
+func ContainersFromLabels(label *Label) ([]string, error) {
+	return []string{}, nil
+}
+
+func ServicesFromLabels(label *Label) ([]string, error) {
+	return []string{}, nil
 }
 
 // The idea here is to return all the labels a stack has, in order to collect
 // them in a list
-func GetLabelsFromStack(stackId string) ([]string, error) {
+func GetLabelsFromStack(stackName string) ([]string, error) {
+	// Steps to get the services in a Stack deployment:
+	// 1 - Get all the services with the label "com.docker.stack.namespace"
+	// 2 - Select all the services that have the stackName desired
+	// 3 - From here, perform filtering and return the union of the labels of
+	//     all the services in the stack
 	return []string{}, nil
 }

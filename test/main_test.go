@@ -1,3 +1,5 @@
+// +build integration
+
 package datlabel
 
 import (
@@ -15,18 +17,19 @@ func TestItShouldGetLabelsFromContainer(t *testing.T) {
 		Flag(u.DockerTTYFlag).
 		Label(testLabel).
 		Image("alpine"), func(containerId string) {
-		labels, err := m.GetLabelsFromContainer(containerId)
+		result, err := m.GetLabelsFromContainer(containerId)
 		if err != nil {
 			u.KillContainer(containerId, t)
 			t.Fatalf(err.Error())
 		}
-		if len(labels) != 1 || labels[0] != testLabel {
+		labels := result.Labels()
+		if len(labels) != 1 || labels[0].Name() != testLabel {
 			u.KillContainer(containerId, t)
 			t.Fatalf("Expected 1 element in the array, found %d",
 				len(labels))
 		}
 
-		t.Log(labels[0])
+		t.Log(labels[0].Name())
 	}, t)
 }
 
@@ -37,11 +40,12 @@ func TestItShouldNotGetLabelsFromEmptyContainer(t *testing.T) {
 		Flag(u.DockerCliDetachFlag).
 		Flag(u.DockerTTYFlag).
 		Image("alpine"), func(containerId string) {
-		labels, err := m.GetLabelsFromContainer(containerId)
+		result, err := m.GetLabelsFromContainer(containerId)
 		if err != nil {
 			u.KillContainer(containerId, t)
 			t.Fatalf(err.Error())
 		}
+		labels := result.Labels()
 		if len(labels) != 0 {
 			u.KillContainer(containerId, t)
 			t.Fatalf("Expected 0 elements in the array, found %d",
@@ -53,13 +57,16 @@ func TestItShouldNotGetLabelsFromEmptyContainer(t *testing.T) {
 // Here we test if an error is returned when the label list of a
 // non-existing container is asked
 func TestItShouldReturnErrorIfContainerIdIsInvalid(t *testing.T) {
-	labels, err := m.GetLabelsFromContainer("dummyId")
+	result, err := m.GetLabelsFromContainer("dummyId")
 	if err == nil {
+		labels := result.Labels()
 		for _, v := range labels {
 			t.Logf("Label value: %s", v)
 		}
 		t.Fatalf("Expected error to have non-nil value")
 	}
+
+	t.Log(err.Error())
 }
 
 // We are now testing the service functionality.
@@ -71,18 +78,19 @@ func TestItShouldGetLabelsFromService(t *testing.T) {
 		Label(testLabel).
 		Name("testService").
 		Image("nginx"), func(serviceId string) {
-		labels, err := m.GetLabelsFromService(serviceId)
+		result, err := m.GetLabelsFromService(serviceId)
 		if err != nil {
 			u.KillService(serviceId, t)
 			t.Fatalf(err.Error())
 		}
-		if len(labels) != 1 || labels[0] != testLabel {
+		labels := result.Labels()
+		if len(labels) != 1 || labels[0].Name() != testLabel {
 			u.KillService(serviceId, t)
 			t.Fatalf("Expected 1 element in the array, found %d",
 				len(labels))
 		}
 
-		t.Log(labels[0])
+		t.Log(labels[0].Name())
 	}, t)
 }
 
@@ -93,11 +101,12 @@ func TestItShouldNotGetLabelsFromEmptyService(t *testing.T) {
 		Command(u.DockerCreateCommand).
 		Flag(u.DockerCliDetachFlag).
 		Image("nginx"), func(serviceId string) {
-		labels, err := m.GetLabelsFromService(serviceId)
+		result, err := m.GetLabelsFromService(serviceId)
 		if err != nil {
 			u.KillService(serviceId, t)
 			t.Fatalf(err.Error())
 		}
+		labels := result.Labels()
 		if len(labels) != 0 {
 			u.KillService(serviceId, t)
 			t.Fatalf("Expected 0 elements in the array, found %d",
@@ -109,11 +118,14 @@ func TestItShouldNotGetLabelsFromEmptyService(t *testing.T) {
 // Here we test if an error is returned when the label list of a
 // non-existing container is asked
 func TestItShouldReturnErrorIfServiceIdIsInvalid(t *testing.T) {
-	labels, err := m.GetLabelsFromService("dummyId")
+	result, err := m.GetLabelsFromService("dummyId")
 	if err == nil {
+		labels := result.Labels()
 		for _, v := range labels {
 			t.Logf("Label value: %s", v)
 		}
 		t.Fatalf("Expected error to have non-nil value")
 	}
+
+	t.Log(err.Error())
 }
