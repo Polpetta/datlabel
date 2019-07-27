@@ -13,13 +13,19 @@ go build github.com/polpetta/datlabel
 ```
 
 ## Testing
-The projects has tests too. In order to run them, you need a local and
- working Docker installation. On top of that, your Docker installation needs
-  to be set up in Swarm mode. To wrap up, you need to follow this procedure:
+The project has tests too. In order to run them, you need a local and
+working Docker installation. On top of that, your Docker installation needs
+to be set up in Swarm mode. To wrap up, you need to follow this procedure:
 ```shell script
 docker swarm init # This initialize Docker into Swarm configuration
-go test -count=1 ./test/ # Launch the actual tests
+go test -tags=unit -count=1 ./... # Launch unit tests
+go test -tags=intergation -count=1 ./... # Launch integration tests
 docker swarm leave -f # Set it back Docker to classic mode
+```
+
+Alternatively, you can execute all the tests in one shot with:
+```shell script
+go test -tags="unit integration" -count=1 ./...
 ```
 
 ## License
