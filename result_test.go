@@ -14,7 +14,7 @@ func TestItShouldReturnRightNumberOfLabels(t *testing.T) {
 		value: "abc",
 	}
 	label2 := &Label{
-		name:  " something2",
+		name:  "something2",
 		value: "efg",
 	}
 	labels := []Label{
