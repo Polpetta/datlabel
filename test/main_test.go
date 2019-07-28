@@ -3,8 +3,8 @@
 package datlabel
 
 import (
-	m "github.com/polpetta/datlabel"
-	u "github.com/polpetta/datlabel/test/utils"
+	m "github.com/Polpetta/datlabel"
+	u "github.com/Polpetta/datlabel/test/utils"
 	"testing"
 )
 

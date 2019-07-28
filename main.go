@@ -2,8 +2,8 @@ package datlabel
 
 import (
 	"context"
-	ce "github.com/polpetta/datlabel/error"
-	"github.com/polpetta/datlabel/utils"
+	ce "github.com/Polpetta/datlabel/error"
+	"github.com/Polpetta/datlabel/utils"
 )
 
 // Given a container id, the function returns the current labels only, without

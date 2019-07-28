@@ -1,4 +1,4 @@
-module github.com/polpetta/datlabel
+module github.com/Polpetta/datlabel
 
 go 1.12
 

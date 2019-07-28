@@ -1,7 +1,7 @@
 package filter
 
 import (
-	"github.com/polpetta/datlabel"
+	"github.com/Polpetta/datlabel"
 )
 
 // FIXME we should return the Result type here

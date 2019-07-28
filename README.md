@@ -11,7 +11,7 @@ On top of that, it offers the possibility to search on Stacks too.
 The library is a standard Go project that uses modules. In order to build it,
 open a shell and type:
 ```shell script
-go build github.com/polpetta/datlabel
+go build github.com/Polpetta/datlabel
 ```
 
 ## Testing
