@@ -1,6 +1,8 @@
 Datlabel
 ===
 
+[![Build Status](https://travis-ci.org/Polpetta/datlabel.svg?branch=master)](https://travis-ci.org/Polpetta/datlabel)
+
 Datlabel is a micro Go library that aims to make the searching, listing and
 filtering of labels in Docker containers and services as easy as possible.
 On top of that, it offers the possibility to search on Stacks too.
