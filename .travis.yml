@@ -6,6 +6,9 @@ go:
   - 1.13.x
   - master
 
+env:
+  - GO111MODULE=on
+
 services:
   - docker
 
