@@ -3,12 +3,13 @@ package datlabel
 import (
 	"context"
 	ce "github.com/Polpetta/datlabel/error"
+	"github.com/Polpetta/datlabel/result"
 	"github.com/Polpetta/datlabel/utils"
 )
 
 // Given a container id, the function returns the current labels only, without
 // any field description.
-func GetLabelsFromContainer(containerId string) (Result, error) {
+func GetLabelsFromContainer(containerId string) (result.LabelResult, error) {
 	cli := utils.NewDockerClient()
 	containerDetails, err := cli.ContainerInspect(context.Background(),
 		containerId)
@@ -17,12 +18,12 @@ func GetLabelsFromContainer(containerId string) (Result, error) {
 		return nil, ce.NewNoSuchElement(containerId)
 	}
 
-	return NewResult(containerDetails.Config.Labels), nil
+	return result.NewLabelResult(containerDetails.Config.Labels), nil
 }
 
 // Given a service id, the function returns the service labels without any filed
 // description
-func GetLabelsFromService(serviceId string) (Result, error) {
+func GetLabelsFromService(serviceId string) (result.LabelResult, error) {
 	cli := utils.NewDockerClient()
 	serviceDetails, _, err := cli.ServiceInspectWithRaw(context.Background(),
 		serviceId)
@@ -31,14 +32,16 @@ func GetLabelsFromService(serviceId string) (Result, error) {
 		return nil, ce.NewNoSuchElement(serviceId)
 	}
 
-	return NewResult(serviceDetails.Spec.Labels), nil
+	return result.NewLabelResult(serviceDetails.Spec.Labels), nil
 }
 
-func ContainersFromLabels(label *Label) ([]string, error) {
-	return []string{}, nil
+// TODO finish ContainerResult implementation and perform container search
+func ContainersFromLabels(label *result.Label) (result.ContainerResult, error) {
+	return nil, nil
 }
 
-func ServicesFromLabels(label *Label) ([]string, error) {
+// TODO create ServiceResult implementation and perform service search
+func ServicesFromLabels(label *result.Label) ([]string, error) {
 	return []string{}, nil
 }
 

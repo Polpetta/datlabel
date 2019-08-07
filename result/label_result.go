@@ -1,4 +1,4 @@
-package datlabel
+package result
 
 // A label represent a pair of two strings: one identifying the label itself,
 // the other assigning a value to the label
@@ -18,14 +18,15 @@ func (l *Label) Name() string {
 }
 
 // A result is the competition of a listing or filtering operation
-type Result interface {
+type LabelResult interface {
+	Result
 	Labels() []Label
-	Filter(filter func(label *Label) *Label) (Result, error)
+	Filter(filter func(label *Label) *Label) (LabelResult, error)
 }
 
-// This is the a real implementation of the Result interface
+// This is the a real implementation of the LabelResult interface
 type resultImpl struct {
-	Result
+	LabelResult
 	labels []Label
 }
 
@@ -35,9 +36,9 @@ func (r *resultImpl) Labels() []Label {
 }
 
 // Allows to perform filtering operation,
-// returning a new Result containing only the list of labels that have be
+// returning a new LabelResult containing only the list of labels that have be
 // returned by the filter function.
-func (r *resultImpl) Filter(filter func(label *Label) *Label) (Result, error) {
+func (r *resultImpl) Filter(filter func(label *Label) *Label) (LabelResult, error) {
 	var result []Label
 	for _, value := range r.labels {
 		filterResult := filter(&value)
@@ -50,9 +51,9 @@ func (r *resultImpl) Filter(filter func(label *Label) *Label) (Result, error) {
 	}, nil
 }
 
-// Converts the data returned by the Docker library into a Result struct,
+// Converts the data returned by the Docker library into a LabelResult struct,
 // that can be used to filter the labels or to perform more complex operations
-func NewResult(toStructure map[string]string) Result {
+func NewLabelResult(toStructure map[string]string) LabelResult {
 	var labelList []Label
 	for key, value := range toStructure {
 		labelList = append(labelList, Label{

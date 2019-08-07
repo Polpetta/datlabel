@@ -1,12 +1,12 @@
 package filter
 
 import (
-	"github.com/Polpetta/datlabel"
+	"github.com/Polpetta/datlabel/result"
 )
 
-// FIXME we should return the Result type here
+// FIXME we should return the LabelResult type here
 
-func ByValueEqual(label *datlabel.Label, match string) *datlabel.Label {
+func ByValueEqual(label *result.Label, match string) *result.Label {
 	if label.Value() == match {
 		return label
 	}
@@ -14,7 +14,7 @@ func ByValueEqual(label *datlabel.Label, match string) *datlabel.Label {
 	return nil
 }
 
-func ByValueNotEqual(label *datlabel.Label, match string) *datlabel.Label {
+func ByValueNotEqual(label *result.Label, match string) *result.Label {
 	if label.Value() != match {
 		return label
 	}
@@ -22,7 +22,7 @@ func ByValueNotEqual(label *datlabel.Label, match string) *datlabel.Label {
 	return nil
 }
 
-func ByNameEqual(label *datlabel.Label, match string) *datlabel.Label {
+func ByNameEqual(label *result.Label, match string) *result.Label {
 	if label.Name() == match {
 		return label
 	}
@@ -30,7 +30,7 @@ func ByNameEqual(label *datlabel.Label, match string) *datlabel.Label {
 	return nil
 }
 
-func ByNameNotEqual(label *datlabel.Label, match string) *datlabel.Label {
+func ByNameNotEqual(label *result.Label, match string) *result.Label {
 	if label.Name() != match {
 		return label
 	}

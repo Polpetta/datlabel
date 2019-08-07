@@ -1,6 +1,6 @@
 // +build unit
 
-package datlabel
+package result
 
 import (
 	"testing"
@@ -27,7 +27,7 @@ func TestItShouldReturnRightNumberOfLabels(t *testing.T) {
 	}
 
 	if len(resultImpl.Labels()) != len(labels) {
-		t.Fatalf("Size of labels is %d, but got %d from Result",
+		t.Fatalf("Size of labels is %d, but got %d from LabelResult",
 			len(labels),
 			len(resultImpl.Labels()))
 	}
@@ -82,7 +82,7 @@ func TestItShouldReturnRightLabels(t *testing.T) {
 		label2.Value())
 }
 
-// This test checks the NewResult function,
+// This test checks the NewLabelResult function,
 // assuring that the conversion between Labels struct and map[string]string
 // is correctly performed
 func TestNewResult(t *testing.T) {
@@ -92,7 +92,7 @@ func TestNewResult(t *testing.T) {
 	stringsOfLabels["something2"] = "efg"
 	stringsOfLabels["something3"] = "lmn"
 
-	result := NewResult(stringsOfLabels)
+	result := NewLabelResult(stringsOfLabels)
 
 	convertedLabel1 := result.Labels()[0]
 	convertedLabel2 := result.Labels()[1]
