@@ -85,7 +85,7 @@ func TestItShouldReturnRightLabels(t *testing.T) {
 // This test checks the NewLabelResult function,
 // assuring that the conversion between Labels struct and map[string]string
 // is correctly performed
-func TestNewResult(t *testing.T) {
+func TestNewLabelResult(t *testing.T) {
 	stringsOfLabels := make(map[string]string)
 
 	stringsOfLabels["something"] = "abc"

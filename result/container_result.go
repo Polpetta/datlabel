@@ -5,9 +5,14 @@ import (
 )
 
 // Struct that represents a container. It contains a pointer for the
-// docker-defined structure. This struct act like a proxy
+// docker-defined structure and a list of labels.
+// Generating []Label dynamically after the container started doesn't
+// seem to be a reliable method, since it causes some tests to fail (
+// see container_result_test.go/TestItShouldReturnRightContainers).
+// The labels are then cached without relying on the Docker struct.
 type Container struct {
 	rawContainerDefinition *types.Container
+	labels                 []Label
 }
 
 // Getter method to return the original docker container structure
@@ -17,14 +22,7 @@ func (c *Container) RawContainerDefinition() *types.Container {
 
 // Getter method to return a list of labels
 func (c *Container) Labels() []Label {
-	var labels []Label
-	for key, value := range c.rawContainerDefinition.Labels {
-		labels = append(labels, Label{
-			name:  key,
-			value: value,
-		})
-	}
-	return labels
+	return c.labels
 }
 
 // Getter method to return the container id
@@ -74,8 +72,18 @@ func (c *containerResultImpl) Filter(
 func NewContainerResult(toEncapsulate []types.Container) ContainerResult {
 	var containers []Container
 	for _, value := range toEncapsulate {
+
+		var labels []Label
+		for key, value := range value.Labels {
+			labels = append(labels, Label{
+				name:  key,
+				value: value,
+			})
+		}
+
 		containers = append(containers, Container{
 			rawContainerDefinition: &value,
+			labels:                 labels,
 		})
 	}
 
