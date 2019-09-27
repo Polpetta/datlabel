@@ -15,5 +15,5 @@ before_install:
   - docker swarm init
 
 script:
-  - go test -tags=unit -v ./...
-  - go test -tags=integration -v ./test/
+  - go test -tags=unit -v -count=1 ./...
+  - go test -tags=integration -v -count=1 ./test/
