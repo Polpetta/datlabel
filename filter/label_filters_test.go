@@ -83,7 +83,7 @@ func TestByNameNotEqual(t *testing.T) {
 
 	nullValue := ByNameNotEqual(&labelList.Labels()[0], "com.label.test1")
 	if nullValue != nil {
-		t.Fatalf("Expected to get back nil value, but got %s label"+
+		t.Fatalf("Expected to get back nil value, but got %s label "+
 			"instead",
 			nullValue.Name())
 	}
